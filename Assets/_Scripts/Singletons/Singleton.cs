@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace DesignPatterns
 {
+    /// <summary>
+    /// A generic singleton. Only one instance exists and it is destroyed upon changing scenes.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Singleton<T> : MonoBehaviour where T : Component
     {
         protected static T _instance;
