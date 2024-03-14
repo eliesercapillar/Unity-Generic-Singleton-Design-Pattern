@@ -2,10 +2,15 @@ using UnityEngine;
 
 namespace DesignPatterns
 {
+    /// <summary>
+    /// A persistent singleton that persists between scene changes.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class PersistentSingleton<T> : MonoBehaviour where T : Component
     {
         protected static T _instance;
-        public bool _autoUnparentOnAwake = true;
+        public bool _autoUnparentOnAwake = true; // If set to false and the game object is a child, the caller will need to unparent the object themselves
+                                                 // or else this will instead act like a normal, non-persistent, generic singleton.
         
         // Helper Properties / Methods
         public static bool HasInstance = _instance != null;
