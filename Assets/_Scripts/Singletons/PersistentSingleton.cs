@@ -39,11 +39,18 @@ namespace DesignPatterns
         protected void InitializeSingleton()
         {
             if (!Application.isPlaying) return;
-            if (_instance != null) return;
             if (_autoUnparentOnAwake) transform.SetParent(null);
-            
-            _instance = this as T;
-            DontDestroyOnLoad(gameObject);
+
+            if (_instance == null)
+            {
+                _instance = this as T;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                if (_instance != this) Destroy(gameObject);
+            }
+
         }
     }
 }
