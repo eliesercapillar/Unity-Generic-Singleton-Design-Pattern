@@ -5,18 +5,19 @@ namespace DesignPatterns
     public class Singleton<T> : MonoBehaviour where T : Component
     {
         protected static T _instance;
-
-        // Getters/Setters
         
-
+        // Helper Properties / Methods
+        public static bool HasInstance = _instance != null;
+        public static T TryGetInstance() => HasInstance ? _instance : null;  // If there is no instance, don't try to make a new one.
+        
         public static T Instance
         { 
             get
             {
-                // An instance exists, return it.
+                // An instance already exists.
                 if (_instance != null) return _instance;
 
-                // Check to see if an instance exists is any GameObject in all open scenes.
+                // Check to see if an instance already exists is any GameObject in all open scenes.
                 _instance = FindAnyObjectByType<T>();
                 if (_instance != null) return _instance;
 
@@ -27,9 +28,17 @@ namespace DesignPatterns
             }
         }
 
-        protected void Awake()
+        // Called when a new instance is made.
+        // Call base.Awake() for any child overriding the Awake function.
+        protected virtual void Awake()
         {
-            
+            InitializeSingleton();
+        }
+
+        protected void InitializeSingleton()
+        {
+            if (!Application.isPlaying) return;
+            _instance = this as T;
         }
     }
 }
